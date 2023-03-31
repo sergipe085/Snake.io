@@ -18,15 +18,9 @@ public class Snake : MonoBehaviour
     private int score = 0;
     private int addedScore = 0;
 
-    private void Start() {
+    private void Awake() {
         for (int i = 0; i < length; i++) {
             AddBody();
-        }
-    }
-
-    private void IgnoreCollisions() {
-        foreach(SnakeBody b in body) {
-
         }
     }
 
@@ -40,7 +34,6 @@ public class Snake : MonoBehaviour
             Debug.Log("HEAEAEAEAEADADAD");
             newBodyInstance = Instantiate(headPrefab, transform);
             newBodyInstance.Initialize(this, OnHeadCollideAction);
-            CameraController.Instance.AttachTo(newBodyInstance.transform);
         }
         body.Add(newBodyInstance);
         newBodyInstance.RandomColor();
@@ -48,20 +41,13 @@ public class Snake : MonoBehaviour
 
     private void MoveForward() {
         SnakeBody head = GetHead();
-        Vector2 desiredDirection = head.transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        direction = Vector2.Lerp(direction, desiredDirection, 5f * Time.deltaTime);
 
         head.transform.position -= (Vector3)direction.normalized * Time.deltaTime * 3f;
         head.transform.up = direction;
     }
 
-    public void Move(Vector2 desiredDirection) {
-        SnakeBody head = GetHead();
-        // Vector2 desiredDirection = head.transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    public void Control(Vector2 desiredDirection) {
         direction = Vector2.Lerp(direction, desiredDirection, 5f * Time.deltaTime);
-
-        head.transform.position -= (Vector3)direction.normalized * Time.deltaTime * 3f;
-        head.transform.up = direction;
     }
 
     private void Update() {

@@ -12,6 +12,8 @@ public class CameraController : Singleton<CameraController>
     }
 
     private void LateUpdate() {
+        if (!target) return;
+
         transform.position = Vector3.SmoothDamp(transform.position, target.transform.position + new Vector3(0f, 0f, -10f), ref vel, 0.2f);
     }
 }
